@@ -90,13 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para inicializar o mapa
     function initMap() {
-        const map = L.map('map').setView([-25.683, -48.45], 13); // Coordenadas de Pontal do Paraná
+        const coords = [-25.665863, -48.466011]; // Coordenadas Corretas - Balneário Guarapari
+        const map = L.map('map').setView(coords, 15); // Aumentei o zoom para 15 para melhor visualização
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        L.marker([-25.683, -48.45]).addTo(map)
+        L.marker(coords).addTo(map)
             .bindPopup('Nossa área de preservação.<br> Adote uma árvore aqui!')
             .openPopup();
     }
