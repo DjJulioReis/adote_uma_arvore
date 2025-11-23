@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="title">Adote uma Árvore</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 data-translate-key="title">Adote uma Árvore</h1>
+            <div class="language-selector">
+                <label for="lang-select" data-translate-key="language">Idioma:</label>
+                <select id="lang-select">
+                    <option value="pt">Português</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <h2 data-translate-key="subtitle">Ajude a preservar a Mata Atlântica em Pontal do Paraná.</h2>
+            <div id="map"></div>
+        </section>
+
+        <section class="fauna-flora">
+            <h2 data-translate-key="fauna_flora_title">Flora e Fauna de Pontal do Paraná</h2>
+            <p data-translate-key="fauna_flora_description">A região de Pontal do Paraná...</p>
+        </section>
+
+        <section class="adoption-section">
+            <h2 data-translate-key="select_tree">Escolha sua Árvore</h2>
+            <p data-translate-key="price_per_year">US$ 15 por ano</p>
+            <div id="species-list" class="species-container">
+                <!-- As espécies de árvores serão carregadas aqui via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Adote uma Árvore. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

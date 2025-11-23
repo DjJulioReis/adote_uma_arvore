@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Tela de Login -->
+    <div id="login-container">
+        <h2>Login Administrativo</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">Entrar</button>
+            <p id="login-error" class="error-message"></p>
+        </form>
+    </div>
+
+    <!-- Painel Principal (oculto por padrão) -->
+    <div id="admin-panel" style="display: none;">
+        <header>
+            <h1>Gerenciamento de Espécies</h1>
+            <div>
+                <span id="admin-user"></span>
+                <button id="logout-btn">Sair</button>
+            </div>
+        </header>
+
+        <main class="container">
+            <!-- Formulário para Adicionar/Editar Espécies -->
+            <form id="species-form">
+                <input type="hidden" id="species-id">
+                <h3>Adicionar/Editar Espécie</h3>
+                <div class="form-group">
+                    <label for="name_pt">Nome (PT)</label>
+                    <input type="text" id="name_pt" required>
+                </div>
+                <div class="form-group">
+                    <label for="name_en">Nome (EN)</label>
+                    <input type="text" id="name_en" required>
+                </div>
+                <div class="form-group">
+                    <label for="description_pt">Descrição (PT)</label>
+                    <textarea id="description_pt"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description_en">Descrição (EN)</label>
+                    <textarea id="description_en"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image_url">URL da Imagem</label>
+                    <input type="text" id="image_url" placeholder="ex: ipê.jpg">
+                </div>
+                <button type="submit">Salvar</button>
+                <button type="button" id="cancel-edit-btn" style="display: none;">Cancelar Edição</button>
+            </form>
+
+            <!-- Tabela de Espécies -->
+            <hr>
+            <h2>Espécies Cadastradas</h2>
+            <div id="species-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome (PT)</th>
+                            <th>Nome (EN)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="species-tbody">
+                        <!-- Linhas da tabela serão inseridas aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
