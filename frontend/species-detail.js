@@ -6,10 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const speciesDescription = document.getElementById('species-description');
     const adoptButton = document.getElementById('adopt-button');
 
-    // Pega o ID da espécie da URL
     const urlParams = new URLSearchParams(window.location.search);
     const speciesId = urlParams.get('id');
-    const lang = localStorage.getItem('lang') || 'pt';
 
     if (!speciesId) {
         loadingMessage.textContent = 'Erro: ID da espécie não fornecido.';
@@ -19,23 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Busca os detalhes da espécie na API
     async function fetchSpeciesDetails() {
         try {
-            const response = await fetch(`../backend/api.php?action=get_species&id=${speciesId}&lang=${lang}`);
+            // A API agora retorna os nomes corretos sem necessidade de parâmetro de idioma
+            const response = await fetch(`../backend/api.php?action=get_species&id=${speciesId}`);
             const result = await response.json();
 
             if (result.success && result.data) {
                 const species = result.data;
-                document.title = species.name;
+                document.title = species.name_common; // Usa o nome comum como título
                 speciesImg.src = `../assets/images/${species.image_url}`;
-                speciesImg.alt = species.name;
-                speciesName.textContent = species.name;
-                speciesDescription.textContent = species.description;
+                speciesImg.alt = species.name_common;
+                // Exibe ambos os nomes para clareza
+                speciesName.innerHTML = `${species.name_common} <br><small><em>(${species.name_scientific})</em></small>`;
+                speciesDescription.textContent = species.description_pt; // Usa a descrição em PT por padrão
 
                 loadingMessage.style.display = 'none';
                 speciesDetailContent.style.display = 'grid';
 
-                // Adiciona o evento de clique para o botão de adotar
                 adoptButton.addEventListener('click', () => {
-                    redirectToCheckout(species.id, species.name);
+                    redirectToCheckout(species.id, species.name_common);
                 });
 
             } else {
@@ -53,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('../backend/api.php?action=create_checkout_session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ species_id: id, species_name: name })
+                body: JSON.stringify({ species_id: id })
             });
             const session = await response.json();
 

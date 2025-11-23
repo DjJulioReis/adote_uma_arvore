@@ -1,9 +1,9 @@
 <?php
 // Configurações do Banco de Dados
 define('DB_HOST', 'localhost');
-define('DB_USERNAME', 'root'); // Altere para o seu usuário
-define('DB_PASSWORD', '');     // Altere para a sua senha
-define('DB_NAME', 'tree_adoption');
+define('DB_USERNAME', 'adoteumaarvore_danilo'); // Altere para o seu usuário
+define('DB_PASSWORD', 'danilo!@#');     // Altere para a sua senha
+define('DB_NAME', 'adoteumaarvore_eco');
 
 /**
  * Cria e retorna uma conexão PDO com o banco de dados.

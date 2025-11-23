@@ -21,18 +21,17 @@ try {
                 $stmt = $pdo->prepare("SELECT * FROM species WHERE id = :id");
                 $stmt->execute(['id' => $_GET['id']]);
                 $species = $stmt->fetch(PDO::FETCH_ASSOC);
-                echo json_encode(['success' => true, 'data' => $species]);
             } else {
-                $stmt = $pdo->query("SELECT * FROM species ORDER BY id DESC");
+                $stmt = $pdo->query("SELECT id, name_common, name_scientific FROM species ORDER BY id DESC");
                 $species = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                echo json_encode(['success' => true, 'data' => $species]);
             }
+            echo json_encode(['success' => true, 'data' => $species]);
             break;
 
         // Criar uma nova espécie
         case 'POST':
             $data = json_decode(file_get_contents('php://input'), true);
-            $sql = "INSERT INTO species (name_pt, name_en, description_pt, description_en, image_url) VALUES (:name_pt, :name_en, :description_pt, :description_en, :image_url)";
+            $sql = "INSERT INTO species (name_common, name_scientific, description_pt, description_en, image_url) VALUES (:name_common, :name_scientific, :description_pt, :description_en, :image_url)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute($data);
             echo json_encode(['success' => true, 'message' => 'Espécie adicionada com sucesso.']);
@@ -41,7 +40,7 @@ try {
         // Atualizar uma espécie
         case 'PUT':
             $data = json_decode(file_get_contents('php://input'), true);
-            $sql = "UPDATE species SET name_pt = :name_pt, name_en = :name_en, description_pt = :description_pt, description_en = :description_en, image_url = :image_url WHERE id = :id";
+            $sql = "UPDATE species SET name_common = :name_common, name_scientific = :name_scientific, description_pt = :description_pt, description_en = :description_en, image_url = :image_url WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->execute($data);
             echo json_encode(['success' => true, 'message' => 'Espécie atualizada com sucesso.']);

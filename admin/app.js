@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${s.id}</td>
-                <td>${s.name_pt}</td>
-                <td>${s.name_en}</td>
+                <td>${s.name_common}</td>
+                <td>${s.name_scientific}</td>
                 <td>
                     <button onclick="editSpecies(${s.id})">Editar</button>
                     <button onclick="deleteSpecies(${s.id})">Excluir</button>
@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const id = document.getElementById('species-id').value;
         const data = {
             id: id,
-            name_pt: document.getElementById('name_pt').value,
-            name_en: document.getElementById('name_en').value,
+            name_common: document.getElementById('name_common').value,
+            name_scientific: document.getElementById('name_scientific').value,
             description_pt: document.getElementById('description_pt').value,
             description_en: document.getElementById('description_en').value,
             image_url: document.getElementById('image_url').value
@@ -135,8 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const species = result.data;
 
             document.getElementById('species-id').value = species.id;
-            document.getElementById('name_pt').value = species.name_pt;
-            document.getElementById('name_en').value = species.name_en;
+            document.getElementById('name_common').value = species.name_common;
+            document.getElementById('name_scientific').value = species.name_scientific;
             document.getElementById('description_pt').value = species.description_pt;
             document.getElementById('description_en').value = species.description_en;
             document.getElementById('image_url').value = species.image_url;

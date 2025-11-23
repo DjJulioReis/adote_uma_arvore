@@ -3,22 +3,20 @@ header('Content-Type: application/json');
 require_once 'db_config.php';
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
-$lang = isset($_GET['lang']) && $_GET['lang'] === 'en' ? 'en' : 'pt';
 
 try {
     $pdo = connect_db();
 
     switch ($action) {
         case 'get_species':
-            $name_col = 'name_' . $lang;
-            $desc_col = 'description_' . $lang;
-
             if (isset($_GET['id'])) {
-                $stmt = $pdo->prepare("SELECT id, {$name_col} as name, {$desc_col} as description, image_url FROM species WHERE id = :id");
+                // Busca uma espécie específica
+                $stmt = $pdo->prepare("SELECT id, name_common, name_scientific, description_pt, description_en, image_url FROM species WHERE id = :id");
                 $stmt->execute(['id' => $_GET['id']]);
                 $species = $stmt->fetch(PDO::FETCH_ASSOC);
             } else {
-                $stmt = $pdo->query("SELECT id, {$name_col} as name, {$desc_col} as description, image_url FROM species");
+                // Busca todas as espécies
+                $stmt = $pdo->query("SELECT id, name_common, name_scientific, description_pt, description_en, image_url FROM species");
                 $species = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
             echo json_encode(['success' => true, 'data' => $species]);
@@ -33,8 +31,8 @@ try {
 
             if (!$species_id) throw new Exception("ID da espécie é necessário.");
 
-            // Busca o nome da espécie para o checkout
-            $stmt = $pdo->prepare("SELECT name_pt FROM species WHERE id = :id");
+            // Busca o nome comum da espécie para o checkout
+            $stmt = $pdo->prepare("SELECT name_common FROM species WHERE id = :id");
             $stmt->execute(['id' => $species_id]);
             $species = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -47,7 +45,7 @@ try {
                 'line_items' => [[
                     'price_data' => [
                         'currency' => 'usd',
-                        'product_data' => [ 'name' => 'Adoção: ' . $species['name_pt'] ],
+                        'product_data' => [ 'name' => 'Adoção: ' . $species['name_common'] ],
                         'unit_amount' => 1500,
                     ],
                     'quantity' => 1,

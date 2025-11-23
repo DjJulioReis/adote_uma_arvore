@@ -1,14 +1,42 @@
-USE `tree_adoption`;
+USE `adoteumaarvore_eco`;
 
--- Limpa os dados antigos para evitar duplicatas
+-- Limpa os dados antigos para garantir uma inserção limpa
 SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE `payments`;
 TRUNCATE TABLE `adoptions`;
 TRUNCATE TABLE `species`;
 TRUNCATE TABLE `users`;
-TRUNCATE TABLE `payments`;
 SET FOREIGN_KEY_CHECKS = 1;
 
--- Inserir as espécies de árvores (catálogo)
-INSERT INTO `species` (`id`, `name_pt`, `name_en`, `description_pt`, `description_en`, `image_url`) VALUES
-(1, 'Ipê-Amarelo', 'Yellow Ipê', 'O Ipê-Amarelo é uma árvore nativa do Brasil, conhecida por sua exuberante floração amarela que ocorre no final do inverno. É um símbolo do país.', 'The Yellow Ipê is a native Brazilian tree, known for its exuberant yellow flowering that occurs at the end of winter. It is a national symbol.', 'ipe-amarelo.jpg'),
-(2, 'Quaresmeira', 'Quaresmeira', 'A Quaresmeira é uma árvore da Mata Atlântica que floresce com cachos de flores roxas, principalmente durante a quaresma, trazendo uma cor vibrante para a floresta.', 'The Quaresmeira is an Atlantic Forest tree that blooms with clusters of purple flowers, mainly during Lent, bringing vibrant color to the forest.', 'quaresmeira.jpg');
+-- Inserir a lista completa de espécies nativas
+INSERT INTO `species` (`name_common`, `name_scientific`, `description_pt`, `description_en`, `image_url`) VALUES
+('Caroba', 'Jacaranda puberula', 'Uma árvore nativa da Mata Atlântica, apreciada por sua beleza ornamental.', 'A native tree of the Atlantic Forest, appreciated for its ornamental beauty.', 'caroba.jpg'),
+('Jerivá', 'Syagrus romanzoffiana', 'Uma palmeira nativa do Brasil, cujos frutos são apreciados pela fauna local.', 'A palm tree native to Brazil, whose fruits are appreciated by local wildlife.', 'jeriva.jpg'),
+('Ipê-Amarelo', 'Tabebuia alba', 'Símbolo do Brasil, conhecida por sua floração amarela espetacular.', 'Symbol of Brazil, known for its spectacular yellow bloom.', 'ipe-amarelo.jpg'),
+('Caixeta', 'Tabebuia cassinoides', 'Árvore de madeira leve, encontrada em áreas úmidas da Mata Atlântica.', 'A lightwood tree found in humid areas of the Atlantic Forest.', 'caixeta.jpg'),
+('Ipê-da-Serra', 'Tabebuia catarinensis', 'Variedade de ipê que ocorre em regiões de serra, com flores vistosas.', 'A variety of ipê that occurs in mountain regions, with showy flowers.', 'ipe-da-serra.jpg'),
+('Ipê-da-Várzea', 'Tabebuia umbellata', 'Ipê que prefere áreas de várzea, contribuindo para a biodiversidade local.', 'An ipê that prefers floodplain areas, contributing to local biodiversity.', 'ipe-da-varzea.jpg'),
+('Cupiúba', 'Tapirira guianensis', 'Árvore de grande porte, importante para a recuperação de áreas degradadas.', 'A large tree, important for the recovery of degraded areas.', 'cupiuba.jpg'),
+('Pindaíba', 'Xylopia brasiliensis', 'Árvore com frutos que atraem aves, desempenhando um papel ecológico vital.', 'A tree with fruits that attract birds, playing a vital ecological role.', 'pindaiba.jpg'),
+('Pata-de-Vaca', 'Bauhinia forficata', 'Conhecida por suas folhas em formato de pata de vaca, possui uso medicinal.', 'Known for its cow-hoof-shaped leaves, it has medicinal uses.', 'pata-de-vaca.jpg'),
+('Aleluia', 'Senna multijuga', 'Árvore de rápido crescimento com flores amarelas, usada em paisagismo.', 'A fast-growing tree with yellow flowers, used in landscaping.', 'aleluia.jpg'),
+('Guanandi', 'Calophyllum brasiliense', 'Árvore de madeira nobre, resistente à água, importante para o ecossistema.', 'A noble wood tree, water-resistant, important for the ecosystem.', 'guanandi.jpg'),
+('Bacupari', 'Garcinia gardneriana', 'Produz frutos comestíveis e é uma espécie importante para a fauna.', 'Produces edible fruits and is an important species for wildlife.', 'bacupari.jpg'),
+('Tapiá', 'Alchornea triplinervia', 'Pioneira em áreas de recuperação, essencial para o equilíbrio do ecossistema.', 'A pioneer species in recovery areas, essential for ecosystem balance.', 'tapia.jpg'),
+('Angelin', 'Andira anthelminthica', 'Árvore de grande porte, com madeira resistente e papel ecológico relevante.', 'A large tree with resistant wood and relevant ecological role.', 'angelin-anthelminthica.jpg'),
+('Angelin', 'Andira fraxinifolia', 'Outra variedade de angelin, crucial para a fixação de nitrogênio no solo.', 'Another variety of angelin, crucial for nitrogen fixation in the soil.', 'angelin-fraxinifolia.jpg'),
+('Olho-de-Cabra', 'Ormosia arborea', 'Suas sementes vermelhas e pretas são usadas em artesanato.', 'Its red and black seeds are used in handicrafts.', 'olho-de-cabra.jpg'),
+('Sangueiro', 'Pterocarpus violaceus', 'Conhecida por sua seiva vermelha, possui madeira de boa qualidade.', 'Known for its red sap, it has good quality wood.', 'sangueiro.jpg'),
+('Guassatunga-Preta', 'Casearia obliqua', 'Espécie importante para a fauna, fornecendo alimento e abrigo.', 'An important species for wildlife, providing food and shelter.', 'guassatunga-preta.jpg'),
+('Guassatunga-da-Serra', 'Casearia paranaensis', 'Variedade que ocorre na serra, adaptada a diferentes altitudes.', 'A variety that occurs in the mountains, adapted to different altitudes.', 'guassatunga-da-serra.jpg'),
+('Quaresmeira', 'Tibouchina sellowiana', 'Floresce com tons de roxo vibrante, uma das árvores mais belas da Mata Atlântica.', 'Blooms with vibrant purple tones, one of the most beautiful trees in the Atlantic Forest.', 'quaresmeira.jpg'),
+('Cedro-Rosa', 'Cedrela fissilis', 'Madeira nobre e aromática, ameaçada de extinção e vital para a floresta.', 'Noble and aromatic wood, endangered and vital to the forest.', 'cedro-rosa.jpg'),
+('Ingá-Ferro', 'Inga sellowiana', 'Leguminosa que contribui para a fertilidade do solo.', 'A legume that contributes to soil fertility.', 'inga-ferro.jpg'),
+('Ingá-Macaco', 'Inga sessilis', 'Variedade de ingá cujas vagens são alimento para a fauna.', 'A variety of ingá whose pods are food for wildlife.', 'inga-macaco.jpg'),
+('Ingá', 'Inga striata', 'Outra espécie de ingá, fundamental para a recuperação de matas ciliares.', 'Another species of ingá, fundamental for the recovery of gallery forests.', 'inga.jpg'),
+('Cambucá', 'Plinia edulis', 'Fruto saboroso e raro, árvore importante para a cultura e fauna locais.', 'A tasty and rare fruit, an important tree for local culture and wildlife.', 'cambuca.jpg'),
+('Grumixama', 'Eugenia brasiliensis', 'Produz um fruto pequeno e escuro, semelhante a uma cereja, apreciado por aves.', 'Produces a small, dark fruit, similar to a cherry, appreciated by birds.', 'grumixama.jpg'),
+('Camboim-Cereja', 'Eugenia cereja', 'Arbusto ou árvore pequena com frutos que lembram uma cereja.', 'A shrub or small tree with fruits resembling a cherry.', 'camboim-cereja.jpg'),
+('Cerejeira', 'Eugenia involucrta', 'Árvore que produz a "cereja-do-rio-grande", fruto muito saboroso.', 'A tree that produces the "rio-grande-cherry", a very tasty fruit.', 'cerejeira.jpg'),
+('Pitangueira', 'Eugenia uniflora', 'Famosa por seu fruto, a pitanga, é uma das árvores mais populares do Brasil.', 'Famous for its fruit, the pitanga, it is one of the most popular trees in Brazil.', 'pitangueira.jpg'),
+('Araçá', 'Psidium cattleianum', 'Parente da goiaba, seu fruto é apreciado tanto por humanos quanto pela fauna.', 'A relative of the guava, its fruit is appreciated by both humans and wildlife.', 'araca.jpg');

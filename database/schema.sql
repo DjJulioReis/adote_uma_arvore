@@ -1,12 +1,12 @@
 -- Criação do Banco de Dados:
-CREATE DATABASE IF NOT EXISTS `tree_adoption` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `tree_adoption`;
+CREATE DATABASE IF NOT EXISTS `adoteumaarvore_eco` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `adoteumaarvore_eco`;
 
 -- Tabela para as espécies de árvores (catálogo)
 CREATE TABLE IF NOT EXISTS `species` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name_pt` VARCHAR(255) NOT NULL,
-  `name_en` VARCHAR(255) NOT NULL,
+  `name_common` VARCHAR(255) NOT NULL,    -- Nome Popular
+  `name_scientific` VARCHAR(255) NOT NULL, -- Nome Científico
   `description_pt` TEXT,
   `description_en` TEXT,
   `image_url` VARCHAR(255)
