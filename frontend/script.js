@@ -1,77 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
     const langSelect = document.getElementById('lang-select');
-    let currentLang = localStorage.getItem('lang') || 'pt'; // Padrão para 'pt'
+    let currentLang = localStorage.getItem('lang') || 'pt';
+    let allSpecies = [];
+    let currentPreviewSpecies = null;
+    let map = null;
+
+    const previewCard = document.getElementById('species-preview-card');
+    const previewImage = document.getElementById('preview-image');
+    const previewName = document.getElementById('preview-name');
 
     // Função para carregar e aplicar as traduções
     async function updateContent(lang) {
         try {
             const response = await fetch(`../locales/${lang}.json`);
-            if (!response.ok) throw new Error('Arquivo de tradução não encontrado.');
-
             const translations = await response.json();
             document.querySelectorAll('[data-translate-key]').forEach(el => {
                 const key = el.getAttribute('data-translate-key');
-                if (translations[key]) {
-                    el.textContent = translations[key];
-                }
+                if (translations[key]) el.textContent = translations[key];
             });
-            // Atualiza o título da página também
             document.title = translations.title || 'Adote uma Árvore';
-        } catch (error) {
-            console.error("Erro ao carregar traduções:", error);
-        }
+        } catch (e) { console.error("Erro ao carregar traduções:", e); }
     }
 
-    // Função para buscar e exibir as espécies da API
+    // Função para buscar as espécies da API e armazená-las
     async function fetchSpecies(lang) {
         try {
             const response = await fetch(`../backend/api.php?action=get_species&lang=${lang}`);
-            if (!response.ok) throw new Error('Falha ao buscar espécies.');
-
             const result = await response.json();
-            const speciesList = document.getElementById('species-list');
-            speciesList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
-
-            if (result.success && result.data) {
-                result.data.forEach(species => {
-                    const card = document.createElement('div');
-                    card.className = 'species-card';
-                    card.innerHTML = `
-                        <img src="../assets/${species.image_url}" alt="${species.name}">
-                        <h3>${species.name}</h3>
-                        <p>${species.description || ''}</p>
-                        <button onclick="redirectToCheckout('${species.id}')">Adotar</button>
-                    `;
-                    speciesList.appendChild(card);
-                });
+            if (result.success) {
+                allSpecies = result.data;
+                // A renderização de cards foi removida daqui, pois agora a interação é no mapa
             }
-        } catch (error) {
-            console.error("Erro ao buscar espécies:", error);
-        }
+        } catch (e) { console.error("Erro ao buscar espécies:", e); }
     }
 
-    // Função para redirecionar para o checkout do Stripe
-    window.redirectToCheckout = async (speciesId) => {
-        // Cole sua chave publicável do Stripe aqui
-        const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY');
+    // Função para inicializar o mapa de descoberta
+    function initDiscoveryMap() {
+        const coords = [-25.665863, -48.466011];
+        map = L.map('map').setView(coords, 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-        try {
-            // Chame a API para criar a sessão de checkout
-            const response = await fetch('../backend/api.php?action=create_checkout_session', { method: 'POST' });
-            const session = await response.json();
+        L.marker(coords).addTo(map)
+            .bindPopup('Nossa área de preservação.<br> Explore as espécies!')
+            .openPopup();
 
-            // Redirecione para o checkout do Stripe
-            const result = await stripe.redirectToCheckout({
-                sessionId: session.id,
-            });
+        // Eventos do mapa para a descoberta
+        map.on('mousemove', (e) => {
+            if (allSpecies.length > 0) {
+                // Escolhe uma espécie aleatória para exibir
+                const randomIndex = Math.floor(Math.random() * allSpecies.length);
+                currentPreviewSpecies = allSpecies[randomIndex];
 
-            if (result.error) {
-                // Se `redirectToCheckout` falhar, exiba o erro
-                alert(result.error.message);
+                previewImage.src = `../assets/images/${currentPreviewSpecies.image_url}`;
+                previewName.textContent = currentPreviewSpecies.name;
+                previewCard.style.display = 'flex';
             }
-        } catch (error) {
-            console.error('Erro ao redirecionar para o checkout:', error);
-        }
+        });
+
+        map.on('mouseout', () => {
+            previewCard.style.display = 'none';
+        });
+
+        map.on('click', () => {
+            if (currentPreviewSpecies) {
+                // Redireciona para a página de detalhes da espécie
+                window.location.href = `species.html?id=${currentPreviewSpecies.id}`;
+            }
+        });
     }
 
     // Event listener para o seletor de idioma
@@ -82,27 +79,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Função para carregar todo o conteúdo da página
-    function loadPageContent() {
+    async function loadPageContent() {
         langSelect.value = currentLang;
-        updateContent(currentLang);
-        fetchSpecies(currentLang);
-    }
-
-    // Função para inicializar o mapa
-    function initMap() {
-        const coords = [-25.665863, -48.466011]; // Coordenadas Corretas - Balneário Guarapari
-        const map = L.map('map').setView(coords, 15); // Aumentei o zoom para 15 para melhor visualização
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.marker(coords).addTo(map)
-            .bindPopup('Nossa área de preservação.<br> Adote uma árvore aqui!')
-            .openPopup();
+        await updateContent(currentLang);
+        await fetchSpecies(currentLang);
     }
 
     // Carga inicial
-    loadPageContent();
-    initMap();
+    loadPageContent().then(() => {
+        initDiscoveryMap();
+    });
 });
+
+// A função redirectToCheckout foi movida para species-detail.js

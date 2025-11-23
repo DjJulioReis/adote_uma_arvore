@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS `tree_adoption` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `tree_adoption`;
 
--- Tabela para as espécies de árvores
+-- Tabela para as espécies de árvores (catálogo)
 CREATE TABLE IF NOT EXISTS `species` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `name_pt` VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
--- Tabela para registrar as adoções
+-- Tabela para registrar as adoções, agora ligada a uma espécie
 CREATE TABLE IF NOT EXISTS `adoptions` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_id` INT NOT NULL,

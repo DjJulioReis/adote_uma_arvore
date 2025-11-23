@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`${speciesApi}?id=${id}`);
             const result = await response.json();
-            const species = result.data; // A API agora retorna um único objeto
+            const species = result.data;
 
             document.getElementById('species-id').value = species.id;
             document.getElementById('name_pt').value = species.name_pt;

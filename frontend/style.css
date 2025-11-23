@@ -1,78 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* :root define variáveis CSS para uso global */
+:root {
+    --primary-color: #2c5e3f; /* Verde escuro para o tema da natureza */
+    --secondary-color: #f7b733; /* Amarelo/Laranja para destaque */
+    --background-color: #fdfdfd;
+    --text-color: #333;
+    --light-gray-color: #f4f4f4;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
 /* Estilos Globais */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
     margin: 0;
-    color: #333;
-    background-color: #f4f4f4;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
 .container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: auto;
-    overflow: auto;
     padding: 0 20px;
 }
 
 /* Cabeçalho */
 header {
-    background: #333;
+    background: var(--primary-color);
     color: #fff;
-    padding: 1rem 0;
-    border-bottom: #0779e4 3px solid;
+    padding: 1.5rem 0;
+    box-shadow: var(--box-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
-    float: left;
+    margin: 0;
+    font-weight: 700;
 }
 
-.language-selector {
-    float: right;
-    margin-top: 10px;
+.language-selector select {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: var(--border-radius);
+    padding: 5px 10px;
+    font-family: 'Poppins', sans-serif;
 }
+.language-selector option {
+    color: var(--text-color);
+}
+
 
 /* Seções */
 section {
-    padding: 20px 0;
+    padding: 40px 0;
+}
+
+.intro h2 {
+    text-align: center;
+    font-size: 2.2em;
+    font-weight: 700;
+    margin-bottom: 30px;
 }
 
 #map {
-    height: 400px;
-    margin: 20px 0;
-    border: 1px solid #ccc;
+    height: 450px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    z-index: 1; /* Garante que o mapa fique abaixo do card */
 }
 
-/* Lista de Espécies */
+.preview-card {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 300px;
+    transition: opacity 0.3s ease;
+}
+
+.preview-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
+.preview-card h4 {
+    margin: 0;
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+
+.fauna-flora {
+    background: var(--light-gray-color);
+    text-align: center;
+}
+
+.adoption-section {
+    text-align: center;
+}
+
+/* Lista de Espécies (será substituída pelo mapa de árvores) */
 .species-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
 }
 
 .species-card {
     background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: left;
+    overflow: hidden; /* Garante que a imagem se ajuste ao border-radius */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.species-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
 .species-card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.species-card-content {
+    padding: 20px;
+}
+
+.species-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
 }
 
 .species-card button {
-    background: #0779e4;
+    background: var(--secondary-color);
     color: #fff;
     border: 0;
-    padding: 10px 20px;
+    padding: 12px 25px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 50px; /* Botões arredondados */
     font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.species-card button:hover {
+    background: #e6a82a;
 }
 
 /* Rodapé */
@@ -80,15 +177,16 @@ footer {
     background: #333;
     color: #fff;
     text-align: center;
-    padding: 1rem 0;
-    margin-top: 20px;
+    padding: 1.5rem 0;
+    margin-top: 40px;
 }
 
 /* Responsividade */
 @media(max-width: 768px) {
-    header h1,
-    .language-selector {
-        float: none;
-        text-align: center;
+    header .container {
+        flex-direction: column;
+    }
+    header h1 {
+        margin-bottom: 10px;
     }
 }

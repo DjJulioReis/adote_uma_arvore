@@ -3,9 +3,9 @@ session_start();
 header('Content-Type: application/json');
 require_once '../../backend/db_config.php';
 
-// Protege a API, verificando se o admin está logado
+// Protege a API
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    http_response_code(403); // Forbidden
+    http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Acesso negado.']);
     exit;
 }
@@ -15,7 +15,7 @@ $pdo = connect_db();
 
 try {
     switch ($method) {
-        // Obter uma espécie específica ou todas
+        // Obter uma ou todas as espécies
         case 'GET':
             if (isset($_GET['id'])) {
                 $stmt = $pdo->prepare("SELECT * FROM species WHERE id = :id");
@@ -58,7 +58,7 @@ try {
             break;
 
         default:
-            http_response_code(405); // Method Not Allowed
+            http_response_code(405);
             echo json_encode(['success' => false, 'message' => 'Método não permitido.']);
             break;
     }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Espécie</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página de detalhes */
+        .species-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .species-image img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .species-info h1 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        @media(max-width: 768px) {
+            .species-detail-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <!-- O ideal seria ter um cabeçalho consistente, mas por simplicidade, faremos um link de volta -->
+            <a href="index.html" style="color: #fff; text-decoration: none;">&larr; Voltar ao Mapa</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="species-detail-content" class="species-detail-container" style="display: none;">
+            <div class="species-image">
+                <img id="species-img" src="" alt="">
+            </div>
+            <div class="species-info">
+                <h1 id="species-name"></h1>
+                <p id="species-description"></p>
+                <p data-translate-key="price_per_year" id="species-price"></p>
+                <button id="adopt-button">Adotar esta Espécie</button>
+            </div>
+        </div>
+        <p id="loading-message">Carregando...</p>
+    </main>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="species-detail.js"></script>
+</body>
+</html>
