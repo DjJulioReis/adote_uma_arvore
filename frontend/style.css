@@ -112,10 +112,15 @@ section {
 .tree-icon {
     width: 32px !important;
     height: 32px !important;
-    background-image: url('../assets/images/tree-icon.png'); /* Ícone para preencher o círculo */
-    background-size: cover;
     border-radius: 50%;
     border: 2px solid var(--primary-color);
+}
+.tree-icon div {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
 }
 
 

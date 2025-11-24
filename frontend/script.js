@@ -24,11 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         map = L.map('map').setView(centerCoords, 17); // Zoom aumentado para 17
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        const treeIcon = L.divIcon({
-            className: 'tree-icon',
-            iconSize: [32, 32]
-        });
-
         // Função para gerar uma coordenada aleatória dentro de uma área
         function getRandomCoords(lat, lon, radiusInMeters) {
             const r = radiusInMeters / 111320; // Aproximação de metros para graus
@@ -46,7 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cria 3 marcadores por espécie para um mapa mais preenchido
             for (let i = 0; i < 3; i++) {
                 const randomCoords = getRandomCoords(centerCoords[0], centerCoords[1], 300); // 600m de diâmetro
-                const marker = L.marker(randomCoords, { icon: treeIcon }).addTo(map);
+
+                const dynamicIcon = L.divIcon({
+                    className: 'tree-icon',
+                    html: `<div style="background-image: url('../assets/images/${species.image_url}');"></div>`,
+                    iconSize: [32, 32]
+                });
+
+                const marker = L.marker(randomCoords, { icon: dynamicIcon }).addTo(map);
 
                 marker.on('mouseover', () => {
                     currentPreviewSpecies = species;
