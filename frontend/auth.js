@@ -33,6 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const messageEl = document.getElementById('register-message');
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            if (password !== confirmPassword) {
+                messageEl.textContent = 'As senhas não coincidem.';
+                messageEl.style.color = '#d9534f';
+                return;
+            }
+
             const formData = new FormData(registerForm);
             formData.append('action', 'register');
 

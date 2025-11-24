@@ -13,9 +13,13 @@ try {
             $name = $_POST['name'] ?? '';
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
+            $confirm_password = $_POST['confirm_password'] ?? '';
 
             if (empty($name) || empty($email) || empty($password)) {
                 throw new Exception('Todos os campos são obrigatórios.');
+            }
+            if ($password !== $confirm_password) {
+                throw new Exception('As senhas não coincidem.');
             }
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 throw new Exception('E-mail inválido.');
