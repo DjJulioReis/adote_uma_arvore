@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(authApi, {
                     method: 'POST',
-                    body: new URLSearchParams(new FormData(loginForm))
+                    body: new URLSearchParams(formData)
                 });
                 const result = await response.json();
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(authApi, {
                     method: 'POST',
-                    body: new URLSearchParams(new FormData(registerForm))
+                    body: new URLSearchParams(formData)
                 });
                 const result = await response.json();
 
