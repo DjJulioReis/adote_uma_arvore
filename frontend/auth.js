@@ -7,13 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formData = new FormData(loginForm);
-            formData.append('action', 'login');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const body = new URLSearchParams();
+            body.append('action', 'login');
+            body.append('email', email);
+            body.append('password', password);
 
             try {
                 const response = await fetch(authApi, {
                     method: 'POST',
-                    body: new URLSearchParams(formData)
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body
                 });
                 const result = await response.json();
 
@@ -42,13 +48,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const formData = new FormData(registerForm);
-            formData.append('action', 'register');
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            const body = new URLSearchParams();
+            body.append('action', 'register');
+            body.append('name', name);
+            body.append('email', email);
+            body.append('password', password);
+            body.append('confirm_password', confirmPassword);
 
             try {
                 const response = await fetch(authApi, {
                     method: 'POST',
-                    body: new URLSearchParams(formData)
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body
                 });
                 const result = await response.json();
 
