@@ -112,10 +112,10 @@ section {
 .tree-icon {
     width: 32px !important;
     height: 32px !important;
-    background-image: url('../assets/images/tree-icon.png'); /* Placeholder para o ícone */
-    background-size: cover;
-    border-radius: 50%;
-    border: 2px solid var(--primary-color);
+    background-image: url('../assets/images/tree-icon-transparent.png'); /* Ícone com fundo transparente */
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
 }
 
 

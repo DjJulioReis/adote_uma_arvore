@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para inicializar o mapa de descoberta
     function initDiscoveryMap() {
         const centerCoords = [-25.665863, -48.466011];
-        map = L.map('map').setView(centerCoords, 15);
+        map = L.map('map').setView(centerCoords, 17); // Zoom aumentado para 17
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
         const treeIcon = L.divIcon({
