@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - Adote uma Árvore</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cart-container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fff;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+        }
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+        }
+        .cart-total {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .checkout-button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 15px;
+            background: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" style="color: #fff; text-decoration: none;"><h1 data-translate-key="title">Adote uma Árvore</h1></a>
+            <nav id="user-nav"></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="cart-container">
+            <h2>Meu Carrinho de Adoção</h2>
+            <div id="cart-items">
+                <!-- Itens do carrinho serão inseridos aqui -->
+            </div>
+            <div id="cart-total" class="cart-total"></div>
+            <a href="#" id="checkout-btn" class="checkout-button">Finalizar Adoção</a>
+        </div>
+    </main>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="header.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>

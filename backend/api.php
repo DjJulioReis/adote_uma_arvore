@@ -1,63 +1,74 @@
 <?php
+session_start(); // Garante que a sessão está ativa para acessar o carrinho
 header('Content-Type: application/json');
 require_once 'db_config.php';
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
+$pdo = connect_db();
 
 try {
-    $pdo = connect_db();
-
     switch ($action) {
         case 'get_species':
+            // ... (código existente para get_species)
             if (isset($_GET['id'])) {
-                // Busca uma espécie específica
-                $stmt = $pdo->prepare("SELECT id, name_common, name_scientific, description_pt, description_en, image_url FROM species WHERE id = :id");
+                $stmt = $pdo->prepare("SELECT id, name_common, name_scientific, description_pt, description_en, image_url, carbon_offset_kg FROM species WHERE id = :id");
                 $stmt->execute(['id' => $_GET['id']]);
                 $species = $stmt->fetch(PDO::FETCH_ASSOC);
             } else {
-                // Busca todas as espécies
-                $stmt = $pdo->query("SELECT id, name_common, name_scientific, description_pt, description_en, image_url FROM species");
+                $stmt = $pdo->query("SELECT id, name_common, name_scientific, image_url FROM species");
                 $species = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
             echo json_encode(['success' => true, 'data' => $species]);
             break;
 
         case 'create_checkout_session':
+            if (empty($_SESSION['cart'])) {
+                throw new Exception("O carrinho está vazio.");
+            }
+            if (!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']) {
+                throw new Exception("Você precisa estar logado para finalizar a adoção.");
+            }
+
             // require_once('../vendor/autoload.php');
             // \Stripe\Stripe::setApiKey('SUA_CHAVE_SECRETA_AQUI');
 
-            $data = json_decode(file_get_contents('php://input'), true);
-            $species_id = $data['species_id'] ?? null;
+            $placeholders = implode(',', array_fill(0, count($_SESSION['cart']), '?'));
+            $sql = "SELECT id, name_common FROM species WHERE id IN ({$placeholders})";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(array_values($_SESSION['cart']));
+            $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            if (!$species_id) throw new Exception("ID da espécie é necessário.");
+            $line_items = [];
+            $price_per_tree = 1500; // US$ 15.00 em centavos
 
-            // Busca o nome comum da espécie para o checkout
-            $stmt = $pdo->prepare("SELECT name_common FROM species WHERE id = :id");
-            $stmt->execute(['id' => $species_id]);
-            $species = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$species) throw new Exception("Espécie não encontrada.");
-
-            $YOUR_DOMAIN = 'http://localhost:8000/frontend';
-            /*
-            $checkout_session = \Stripe\Checkout\Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [[
+            foreach ($cart_items as $item) {
+                $line_items[] = [
                     'price_data' => [
                         'currency' => 'usd',
-                        'product_data' => [ 'name' => 'Adoção: ' . $species['name_common'] ],
-                        'unit_amount' => 1500,
+                        'product_data' => ['name' => 'Adoção: ' . $item['name_common']],
+                        'unit_amount' => $price_per_tree,
                     ],
                     'quantity' => 1,
-                ]],
+                ];
+            }
+
+            $YOUR_DOMAIN = 'http://localhost:8000/frontend';
+
+            // require_once('../vendor/autoload.php'); // 1. Instale o Stripe via Composer
+            // \Stripe\Stripe::setApiKey('sk_test_...'); // 2. Insira sua chave secreta do Stripe aqui
+
+            $checkout_session = \Stripe\Checkout\Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => $line_items,
                 'mode' => 'payment',
-                'success_url' => $YOUR_DOMAIN . '/payment_success.html',
+                'success_url' => $YOUR_DOMAIN . '/payment_success.html?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => $YOUR_DOMAIN . '/payment_cancel.html',
+                'metadata' => [
+                    'user_id' => $_SESSION['user_id'],
+                    'species_ids' => json_encode($_SESSION['cart'])
+                ]
             ]);
             echo json_encode(['id' => $checkout_session->id]);
-            */
-
-            echo json_encode(['id' => 'cs_test_a1B2c3D4e5F6g7H8i9J0k1L2m3N4o5P6_' . $species_id]);
             break;
 
         default:

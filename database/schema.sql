@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS `species` (
   `name_scientific` VARCHAR(255) NOT NULL, -- Nome Científico
   `description_pt` TEXT,
   `description_en` TEXT,
-  `image_url` VARCHAR(255)
+  `image_url` VARCHAR(255),
+  `carbon_offset_kg` DECIMAL(10, 2) DEFAULT 0.00
 ) ENGINE=InnoDB;
 
 -- Tabela para os usuários que adotam as árvores
@@ -17,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 

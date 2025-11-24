@@ -31,7 +31,7 @@ Este é um site para a adoção de árvores, com o objetivo de arrecadar fundos 
 
 3.  **Configure o Backend**
     -   Abra o arquivo `backend/db_config.php`.
-    -   Altere as constantes `DB_HOST`, `DB_USERNAME` e `DB_PASSWORD` com as suas credenciais. O `DB_NAME` já vem configurado como `doteumaarvore_eco`.
+    -   Altere as constantes `DB_HOST`, `DB_USERNAME` e `DB_PASSWORD` com as suas credenciais. O `DB_NAME` já vem configurado como `adoteumaarvore_eco`.
 
 4.  **Crie um Administrador (Obrigatório)**
     -   Para acessar o painel administrativo, você precisa criar um usuário. Execute o seguinte script PHP no seu terminal ou crie um arquivo temporário para executá-lo. **Lembre-se de deletar este arquivo depois.**
@@ -51,9 +51,9 @@ Este é um site para a adoção de árvores, com o objetivo de arrecadar fundos 
     ```
 
 5.  **Configure a Integração com o Stripe**
-    -   (Opcional, se for usar pagamentos) Instale a biblioteca do Stripe via Composer: `composer require stripe/stripe-php`.
-    -   Abra os arquivos `backend/api.php` e `frontend/species-detail.js`.
-    -   Insira suas chaves do Stripe (secretas e publicáveis) nos locais indicados.
+    -   Instale a biblioteca do Stripe via Composer na raiz do projeto: `composer require stripe/stripe-php`.
+    -   **Chave Secreta:** Abra `backend/api.php`, descomente as duas linhas indicadas e insira sua chave secreta do Stripe (`sk_test_...`).
+    -   **Chave Publicável:** Abra `frontend/cart.js`, encontre a linha `const stripe = Stripe(...)` e insira sua chave publicável (`pk_test_...`).
 
 ## Como Usar
 
