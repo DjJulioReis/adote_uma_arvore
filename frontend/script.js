@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const dynamicIcon = L.divIcon({
                     className: 'tree-icon',
-                    html: `<div style="background-image: url('../assets/images/${species.image_url}');"></div>`,
+                    html: `<img src="../assets/images/${species.image_url}" alt="${species.name_common}">`,
                     iconSize: [32, 32]
                 });
 
