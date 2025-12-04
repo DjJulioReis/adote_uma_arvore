@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Camera Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Security Camera Viewer</h1>
+    <div class="container">
+        <input type="text" id="rtsp-url" placeholder="Enter RTSP URL">
+        <button id="start-stream">Start Stream</button>
+        <button id="stop-stream" disabled>Stop Stream</button>
+        <video id="video-player" controls></video>
+        <p id="error-message" style="color: red;"></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="client.js"></script>
+</body>
+</html>
